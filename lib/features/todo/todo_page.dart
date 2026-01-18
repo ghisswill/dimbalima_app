@@ -25,21 +25,37 @@ class _TodoView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<TodoViewModel>();
+    final controller = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(title: const Text('To DO')),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(16),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'counter: ${viewModel.counter}',
-              style: TextStyle(fontSize: 20),
+            TextField(
+              controller: controller,
+              decoration: InputDecoration(hintText: 'Nouvelle tâche'),
+              onSubmitted: (value) {
+                viewModel.addTodo(value);
+                controller.clear();
+              },
             ),
-            const SizedBox(height: 12),
-            ElevatedButton(
-              onPressed: viewModel.increment,
-              child: const Text('Increment'),
+            const SizedBox(height: 16),
+            Expanded(
+              child: ListView.builder(
+                itemCount: viewModel.todos.length,
+                itemBuilder: (_, index) {
+                  final todo = viewModel.todos[index];
+                  return ListTile(
+                    title: Text(todo.title),
+                    trailing: IconButton(
+                      onPressed: () => viewModel.removeTodo(index),
+                      icon: Icon(Icons.delete),
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         ),
