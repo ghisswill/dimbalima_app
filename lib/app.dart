@@ -1,3 +1,5 @@
+import 'package:dimbalima_app/features/auth/page/auth_gate.dart';
+import 'package:dimbalima_app/features/auth/viewmodel/auth_view_model.dart';
 import 'package:dimbalima_app/features/home/home_page.dart';
 import 'package:dimbalima_app/core/theme/app_theme.dart';
 import 'package:dimbalima_app/features/todo/todo_remote_view_model.dart';
@@ -14,11 +16,12 @@ class App extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => TodoViewModel()),
         ChangeNotifierProvider(create: (_) => TodoRemoteViewModel()),
+        ChangeNotifierProvider(create: (_)=> AuthViewModel())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lighTheme,
-        home: const HomePage(),
+        home: const AuthGate(),
       ),
     );
   }
